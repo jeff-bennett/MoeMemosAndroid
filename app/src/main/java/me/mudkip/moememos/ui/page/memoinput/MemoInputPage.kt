@@ -240,7 +240,7 @@ fun MemoInputPage(
         )
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(memoIdentifier, shareContent) {
         viewModel.uploadResources.clear()
         when {
             memo != null -> {
@@ -250,6 +250,7 @@ fun MemoInputPage(
 
             shareContent != null -> {
                 text = TextFieldValue(shareContent.text, TextRange(shareContent.text.length))
+                initialContent = shareContent.text
                 for (item in shareContent.images) {
                     uploadImage(item)
                 }

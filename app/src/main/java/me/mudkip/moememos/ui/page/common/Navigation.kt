@@ -141,7 +141,9 @@ fun Navigation() {
         when(intent.action) {
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
                 shareContent = ShareContent.parseIntent(intent)
-                navController.navigate(RouteName.SHARE)
+                navController.navigate(RouteName.SHARE) {
+                    launchSingleTop = true
+                }
             }
             Intent.ACTION_VIEW -> {
                 when (intent.getStringExtra("action")) {

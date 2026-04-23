@@ -11,7 +11,13 @@ data class ShareContent(
 ) {
     companion object {
         fun parseIntent(intent: Intent): ShareContent {
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)?.trim().orEmpty()
+            val body = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim().orEmpty()
+            val text = when {
+                subject.isNotEmpty() && body.isNotEmpty() -> "$subject\n\n$body"
+                subject.isNotEmpty() -> subject
+                else -> body
+            }
             val images = ArrayList<Uri>()
 
             when (intent.action) {
@@ -46,7 +52,7 @@ data class ShareContent(
                 }
             }
 
-            return ShareContent(text ?: "", images)
+            return ShareContent(text, images)
         }
     }
 }
